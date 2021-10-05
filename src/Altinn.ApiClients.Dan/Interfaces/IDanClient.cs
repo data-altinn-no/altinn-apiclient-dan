@@ -4,15 +4,18 @@ using Altinn.ApiClients.Dan.Models;
 
 namespace Altinn.ApiClients.Dan.Interfaces
 {
-    interface IDanClient
+    public interface IDanClient
     {
-        Task<List<DataSet>> GetSynchronousDataset(string dataSetName, string subject, Dictionary<string, string> parameters,
+        Task<DataSet> GetSynchronousDataset(string dataSetName, string subject,
+            string requestor = null, Dictionary<string, string> parameters = null);
+
+        Task<Accreditation> CreateAsynchronousDatasetRequest(DataSetRequest dataSetRequest, string subject,
             string requestor = null);
 
-        Task<List<DataSet>> GetAsynchronousDataset(string datasetname, string accreditationguid);
+        Task<DataSet> GetAsynchronousDataset(string accreditationguid, string datasetname);
 
-        Task<Accreditation> CreateAsynchronousDatasetRequest(DataSetRequest dataSetRequest, string subject, string requestor = null); 
-
-        Task<DataSetRequestStatus> GetRequestStatus(string dataSetName, string accreditationGuid); 
+        Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid, string dataSetName);
+        
+        Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid);
     }
 }

@@ -10,7 +10,6 @@ namespace Altinn.ApiClients.Dan.Models.Enums
         /// <summary>
         /// Legal basis is a ESPD document
         /// </summary>
-        [EnumMember(Value = "ESPD")]
-        Espd = 1
+        [EnumMember(Value = "ESPD")] Espd = 1
     }
 }

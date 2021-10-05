@@ -1,23 +1,15 @@
+using Altinn.ApiClients.Dan.Extensions;
+using Altinn.ApiClients.Dan.Interfaces;
+using Altinn.ApiClients.Dan.Models;
+using Altinn.ApiClients.Dan.Services;
+using Altinn.ApiClients.Maskinporten.Config;
+using Altinn.ApiClients.Maskinporten.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Altinn.ApiClients.Dan.Extensions;
-using Altinn.ApiClients.Maskinporten.Config;
-using Altinn.ApiClients.Maskinporten.Handlers;
-using Altinn.ApiClients.Maskinporten.Service;
-using Altinn.ApiClients.Maskinporten.Services;
-using Microsoft.Extensions.Caching.Memory;
-using SampleWebApp.Service;
-using SampleWebApp.Services;
 
 namespace SampleWebApp
 {
@@ -34,15 +26,15 @@ namespace SampleWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            services.AddSingleton<IMemoryCache, MemoryCache>();
             services.AddHttpClient();
-
-            // Add a configuration client
-            services.Configure<MaskinportenSettings<IMyDanClientSecretService>>(Configuration.GetSection("MaskinportenSettingsForDanClient"));
-            services.AddDanClient<IMyDanClientSecretService, MyDanClientSecretService>();
-
-
+            services.AddSingleton<IMemoryCache, MemoryCache>();
+            services.AddSingleton<IDanClient, DanClient>();
+            // conf for MaskinPorten 
+            services.Configure<MaskinportenSettings<Pkcs12ClientDefinition>>(Configuration.GetSection("MyMaskinportenSettingsForCertFile"));
+            services.AddSingleton<Pkcs12ClientDefinition>();
+            // conf for DAN
+            services.Configure<DanSettings>(Configuration.GetSection("DanSettings"));
+            services.AddDanClient<Pkcs12ClientDefinition>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,10 +50,7 @@ namespace SampleWebApp
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

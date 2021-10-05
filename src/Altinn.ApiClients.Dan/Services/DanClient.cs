@@ -1,96 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
 using Altinn.ApiClients.Dan.Interfaces;
 using Altinn.ApiClients.Dan.Models;
-using Microsoft.Extensions.Options;
-using Refit;
 
 namespace Altinn.ApiClients.Dan.Services
 {
     public class DanClient : IDanClient
     {
-        private IDanApi _danApi;
-        private readonly HttpClient _httpClient;
-        private readonly DanOptions _options;
+        private readonly IDanApi _danApi;
 
-        public DanClient(DanHttpClient httpClient, IOptions<DanOptions> options, IDanApi danApi)
-        // public DanClient(DanHttpClient httpClient, IOptions<DanOptions> options, IDanApi danApi)
+        public DanClient(IDanApi danApi)
         {
-            _httpClient = httpClient;
-            _options = options.Value;
             _danApi = danApi;
-
-            // var baseUri = GetUriForEnvironment(_options.Environment);
-            // if (_options.BaseUri != null)
-            // {
-            //     baseUri = _options.BaseUri;
-            // }
-
-            // _httpClient.BaseAddress = new Uri("https://reqres.in/");
-            // _httpClient.BaseAddress = new Uri("https://test-api.data.altinn.no/v1/");
-            // _httpClient.BaseAddress = ...; // get uri based on environment set in options
-            // _httpClient.DefaultRequestHeaders.Add("Ocim-Api-Key", _options.SubscriptionKey);
         }
 
-        public async Task<List<DataSet>> GetSynchronousDataset(string dataSetName, string subject,
-            Dictionary<string, string> parameters, string requestor = null)
+        public async Task<DataSet> GetSynchronousDataset(string dataSetName, string subject,
+            string requestor = null, Dictionary<string, string> parameters = null)
         {
-            //Hent requestor fra token(?)
-            List<DataSet> dataSets = await _danApi.GetDirectharvest(dataSetName, subject, requestor);
+            return await _danApi.GetDirectharvest(dataSetName, subject, requestor, parameters);
+        }
 
-            await sendSomeDummyStuff();
-
-            //Non-DI-stuff..
-            var settings = new RefitSettings()
+        public async Task<Accreditation> CreateAsynchronousDatasetRequest(DataSetRequest dataSetRequest, string subject,
+            string requestor = null)
+        {
+            AuthorizationRequest authorizationRequest = new AuthorizationRequest()
             {
-                CollectionFormat = CollectionFormat.Multi,
-                AuthorizationHeaderValueGetter = AuthorizationHeaderValueGetter
+                DataSetRequests = new List<DataSetRequest>() { dataSetRequest },
+                Subject = subject,
+                Requestor = requestor
             };
-            var danApi = RestService.For<IDanApi>("https://test-api.data.altinn.no/v1", settings);
-            // danApi.GetDirectharvest();
-            
-            throw new NotImplementedException();
+            return await _danApi.PostAuthorization(authorizationRequest);
         }
 
-        private Task<string> AuthorizationHeaderValueGetter()
+        public async Task<DataSet> GetAsynchronousDataset(string accreditationguid, string datasetname)
         {
-            return Task.FromResult("token");
-            throw new NotImplementedException();
+            return await _danApi.GetEvidence(accreditationguid, datasetname);
         }
 
-        public async Task<List<DataSet>> GetAsynchronousDataset(string datasetname, string accreditationguid)
+        public async Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid, string dataSetName)
         {
-            throw new NotImplementedException();
+            var dataSetRequestStatuses = await _danApi.GetEvidenceStatus(accreditationGuid);
+            return dataSetRequestStatuses.Where(status => status.DataSetName.Equals(dataSetName)).ToList();
         }
 
-        public async Task<Accreditation> CreateAsynchronousDatasetRequest(DataSetRequest dataSetRequest, string subject, string requestor = null)
+        public async Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid)
         {
-            throw new NotImplementedException();
+            return await _danApi.GetEvidenceStatus(accreditationGuid);
         }
-
-        public async Task<DataSetRequestStatus> GetRequestStatus(string dataSetName, string accreditationGuid)
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task sendSomeDummyStuff()
-        {
-            // var url = "api/users";
-            var url = "directharvest/UnitBasicInformation?requestor=991825827&subject=974760673";
-
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-
-            Debug.WriteLine($"request: {_httpClient.BaseAddress}{url}");
-
-            var response = await _httpClient.SendAsync(request);
-
-            Debug.WriteLine($"response: {response}");
-            // Task<string> asyncContent = response.Content.ReadAsStringAsync();
-            Debug.WriteLine($"content: {response.Content.ReadAsStringAsync().Result}");
-        }
-        
     }
 }

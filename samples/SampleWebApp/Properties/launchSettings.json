@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "maskinportentest",
+      "launchUrl": "danclienttest",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

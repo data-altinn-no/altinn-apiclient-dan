@@ -1,66 +1,62 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Altinn.ApiClients.Dan.Models.Enums;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
     /// Describing the format and containing the value of an evidence
     /// </summary>
-    [DataContract]
-    public class DataSetValues : ICloneable
+    public class DataSetValue : ICloneable
     {
         /// <summary>
         /// If value type is attachment, this contains the MIME type (example: application/pdf)
         /// </summary>
-        [DataMember(Name = "mimeType")]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("mimeType")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string MimeType { get; set; }
 
         /// <summary>
         /// A name describing the evidence value
         /// </summary>
         [Required]
-        [DataMember(Name = "evidenceValueName")]
+        [JsonPropertyName("evidenceValueName")]
         public string DataSetValueName { get; set; }
 
         /// <summary>
         /// The source from which the evidence is harvested
         /// </summary>
         [Required]
-        [DataMember(Name = "source")]
+        [JsonPropertyName("source")]
         public string Source { get; set; }
 
         /// <summary>
         /// The time of which the evidence was collected from the source, if used in context of an Evidence
         /// </summary>
-        [DataMember(Name = "timestamp")]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("timestamp")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? Timestamp { get; set; }
 
         /// <summary>
         /// The value for the evidence, if used in context of an Evidence
         /// </summary>
-        [DataMember(Name = "value")]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("value")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public object Value { get; set; }
 
         /// <summary>
         /// The format over the evidence value
         /// </summary>
         [Required]
-        [DataMember(Name = "valueType")]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonPropertyName("valueType")]
         public DataSetValueType? ValueType { get; set; }
 
         /// <summary>
         /// If a richer type is required, a JSON Schema may be supplied
         /// </summary>
-        [DataMember(Name = "jsonSchemaDefintion")]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("jsonSchemaDefintion")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string JsonSchemaDefintion { get; set; }
 
         /// <inheritdoc />

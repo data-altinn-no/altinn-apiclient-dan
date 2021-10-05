@@ -21,10 +21,8 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="requestor">The party requesting data</param>
         /// <returns>Task of void</returns>
         [Get("/directharvest/{evidenceCode}")]
-        Task<List<DataSet>> GetDirectharvest(string evidenceCode, string subject, string requestor = null);
+        Task<DataSet> GetDirectharvest(string evidenceCode, string subject, string requestor = null, Dictionary<string, string> parameters = null);
 
-        // Task<DataSet> GetDirectharvest([Authorize()] string token, string evidenceCode, string subject, string requestor = null);
-        // Task<DataSet> GetDirectharvest(string evidenceCode, string subject, string requestor = null);
         /// <summary>
         /// Gets the evidence
         /// </summary>
@@ -36,7 +34,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="evidenceCode">The name of the evidence code to get data from</param>
         /// <returns>Task of void</returns>
         [Get("/evidence/{accreditationId}/{evidenceCode}")]
-        Task<List<DataSet>> GetEvidence(string accreditationId, string evidenceCode);
+        Task<DataSet> GetEvidence(string accreditationId, string evidenceCode);
 
         /// <summary>
         /// Gets the status of all evidence codes requested in accreditation
@@ -48,7 +46,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="accreditationId">The authorized accreditation id</param>
         /// <returns>Task of void</returns>
         [Get("/evidence/{accreditationId}")]
-        Task<DataSetRequestStatus> GetEvidenceStatus(string accreditationId);
+        Task<List<DataSetRequestStatus>> GetEvidenceStatus(string accreditationId);
 
         /// <summary>
         /// Authorizes and creates an accreditation
@@ -60,6 +58,6 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <returns>Task of void</returns>
         [Post("/authorization")]
         [Headers("Content-Type: application/json")]
-        Task<Accreditation> PostAuthorization([Body] AuthorizationRequest authorizationRequest);
+        Task<Accreditation> PostAuthorization([Body(buffered: true)] AuthorizationRequest authorizationRequest);
     }
 }
