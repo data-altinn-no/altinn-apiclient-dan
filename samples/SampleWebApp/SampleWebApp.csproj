@@ -8,5 +8,15 @@
     <ProjectReference Include="..\..\src\Altinn.ApiClients.Dan\Altinn.ApiClients.Dan.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Certs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Certs\*.p*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
