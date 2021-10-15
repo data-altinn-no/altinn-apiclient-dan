@@ -17,7 +17,7 @@ namespace Altinn.ApiClients.Dan.Models
         public string Content { get; set; }
 
         /// <summary>
-        /// Gets the arbitrary identifier for the legal basis, used to reference this from evidence requests
+        /// Gets the arbitrary identifier for the legal basis, used to reference this from dataset requests
         /// </summary>
         [Required]
         [JsonPropertyName("id")]

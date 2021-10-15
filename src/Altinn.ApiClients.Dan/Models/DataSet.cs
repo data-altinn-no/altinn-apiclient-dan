@@ -5,12 +5,12 @@ using System.Text.Json.Serialization;
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
-    /// Describing an EvidenceCode and what values it carries. When used in context of a Accreditation, also includes the timespan of which the evidence is available
+    /// Describing a dataset and what values it carries. When used in context of a Accreditation, also includes the timespan of which the dataset is available
     /// </summary>
     public class DataSet
     {
         /// <summary>
-        /// The values associated with this evidence code
+        /// The values associated with this dataset
         /// </summary>
         [Required]
         [JsonPropertyName("evidenceValues")]

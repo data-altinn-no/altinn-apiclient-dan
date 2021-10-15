@@ -36,7 +36,7 @@ namespace SampleWebApp.Controllers
         {
             _logger.LogInformation($"CreateAsynchronousDatasetRequest().. | datasetname: {datasetname}, parameters: {parameters.ToReadable()}");
             var dataSetRequest = GetDataSetRequest(datasetname, parameters);
-            Accreditation accreditation = await _danClient.CreateAsynchronousDatasetRequest(dataSetRequest, "974760673", "991825827");
+            Accreditation accreditation = await _danClient.CreateAsynchronousDatasetRequest(dataSetRequest, "982211743", "991825827");
 
             _logger.LogInformation($"AccreditationId: {accreditation.AccreditationId}");
 
@@ -113,7 +113,7 @@ namespace SampleWebApp.Controllers
             sb.AppendLine($"<tr><th>Requestor:</th><td>{acr.Requestor}</td></tr>");
             sb.AppendLine($"<tr><th>Subject:</th><td>{acr.Subject}</td></tr>");
             sb.AppendLine($"<tr><th>Issued:</th><td>{acr.Issued}</td></tr>");
-            sb.AppendLine($"<tr><th>Dataset(s):</th><td>{string.Join(", ", acr.DataSetCodes)}</td></tr>");
+            sb.AppendLine($"<tr><th>Dataset(s):</th><td>{string.Join(", ", acr.DataSetCodes.Select(code => code.DataSetName))}</td></tr>");
             sb.AppendLine("</table>");
 
             return sb.ToString();

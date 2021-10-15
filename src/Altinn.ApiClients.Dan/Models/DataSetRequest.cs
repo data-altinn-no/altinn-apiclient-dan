@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
-    /// Evidence Request as part of an Authorization model
+    /// Dataset request as part of an Authorization model
     /// </summary>
     public class DataSetRequest
     {
         /// <summary>
-        /// The evidence code requested
+        /// The dataset requested
         /// </summary>
         [JsonPropertyName("evidenceCodeName")]
         public string DataSetName { get; set; }
@@ -36,7 +36,7 @@ namespace Altinn.ApiClients.Dan.Models
         public string LegalBasisReference { get; set; }
 
         /// <summary>
-        /// Whether a request for non-open evidence not covered by legal basis should result in a consent request being initiated
+        /// Whether a request for non-open dataset not covered by legal basis should result in a consent request being initiated
         /// </summary>
         [JsonPropertyName("requestConsent")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -6,7 +6,7 @@ using Altinn.ApiClients.Dan.Models.Enums;
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
-    /// Describing the format and containing the value of an evidence
+    /// Describing the format and containing the value of a dataset
     /// </summary>
     public class DataSetValue : ICloneable
     {
@@ -18,35 +18,35 @@ namespace Altinn.ApiClients.Dan.Models
         public string MimeType { get; set; }
 
         /// <summary>
-        /// A name describing the evidence value
+        /// A name describing the dataset value
         /// </summary>
         [Required]
         [JsonPropertyName("evidenceValueName")]
         public string DataSetValueName { get; set; }
 
         /// <summary>
-        /// The source from which the evidence is harvested
+        /// The source from which the dataset is harvested
         /// </summary>
         [Required]
         [JsonPropertyName("source")]
         public string Source { get; set; }
 
         /// <summary>
-        /// The time of which the evidence was collected from the source, if used in context of an Evidence
+        /// The time of which the dataset was collected from the source
         /// </summary>
         [JsonPropertyName("timestamp")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? Timestamp { get; set; }
 
         /// <summary>
-        /// The value for the evidence, if used in context of an Evidence
+        /// The value for the dataset
         /// </summary>
         [JsonPropertyName("value")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public object Value { get; set; }
 
         /// <summary>
-        /// The format over the evidence value
+        /// The format of the dataset
         /// </summary>
         [Required]
         [JsonPropertyName("valueType")]

@@ -10,25 +10,25 @@ namespace Altinn.ApiClients.Dan.Models
     public class AuthorizationRequest
     {
         /// <summary>
-        /// The party requesting the evidence
+        /// The party requesting the dataset
         /// </summary>
         [JsonPropertyName("requestor")]
         public string Requestor { get; set; }
 
         /// <summary>
-        /// The party the evidence is requested for
+        /// The party the dataset is requested for
         /// </summary>
         [JsonPropertyName("subject")]
         public string Subject { get; set; }
 
         /// <summary>
-        /// The requested evidence
+        /// The requested dataset
         /// </summary>
         [JsonPropertyName("evidenceRequests")]
         public List<DataSetRequest> DataSetRequests { get; set; }
 
         /// <summary>
-        /// List of legal basis proving legal authority for the requested evidence
+        /// List of legal basis proving legal authority for the requested dataset
         /// </summary>
         [JsonPropertyName("legalBasisList")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
-    /// Evidence Request as part of an Authorization model
+    /// Dataset request as part of an Authorization model
     /// </summary>
     public class DataSetRequestStatus
     {
         /// <summary>
-        /// The name of the evidence code this status refers to
+        /// The name of the dataset this status refers to
         /// </summary>
         [JsonPropertyName("evidenceCodeName")]
         public string DataSetName { get; set; }
@@ -21,13 +21,13 @@ namespace Altinn.ApiClients.Dan.Models
         public DataSetStatusCode Status { get; set; }
 
         /// <summary>
-        /// From when the evidence code is available
+        /// From when the dataset is available
         /// </summary>
         [JsonPropertyName("validFrom")]
         public DateTime? ValidFrom { get; set; }
 
         /// <summary>
-        /// Until when the evidence code is available
+        /// Until when the dataset is available
         /// </summary>
         [JsonPropertyName("validTo")]
         public DateTime? ValidTo { get; set; }

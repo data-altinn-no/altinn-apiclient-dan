@@ -6,7 +6,7 @@ using Altinn.ApiClients.Dan.Models.Enums;
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
-    /// Describing the availability status of the given evidence code used in the context of a Accreditation
+    /// Describing the availability status of the given dataset used in the context of a Accreditation
     /// </summary>
     public class DataSetStatusCode
     {
@@ -49,7 +49,7 @@ namespace Altinn.ApiClients.Dan.Models
         {
             Code = (int)StatusCodeId.AggregateUnknown,
             Description =
-                "The aggredate evidence status is unknown due to one or more asynchronous evidence codes in the accreditation. See /evidence/{accreditationId} for asynchronous evidence code status"
+                "The aggredate dataset status is unknown due to one or more asynchronous dataset codes in the accreditation. See /status/{accreditationId} for asynchronous dataset code status"
         };
 
         /// <summary>

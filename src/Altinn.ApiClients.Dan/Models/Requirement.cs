@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace Nadobe.Common.Models
+namespace Altinn.ApiClients.Dan.Models
 { 
     /// <summary>
     /// Base class for all authorization requirements

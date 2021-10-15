@@ -3,7 +3,7 @@
 namespace Altinn.ApiClients.Dan.Models.Enums
 {
     /// <summary>
-    /// The type of the evidence value
+    /// The type of the dataset value
     /// </summary>
     public enum DataSetValueType
     {

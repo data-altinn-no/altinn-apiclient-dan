@@ -19,7 +19,6 @@ namespace Altinn.ApiClients.Dan.Extensions
         public static void AddDanClient<T>(this IServiceCollection services) where T : class, IClientDefinition
         {
             services.TryAddSingleton<IMemoryCache, MemoryCache>();
-            services.AddHttpClient();
             services.TryAddSingleton<T>();
             services.TryAddSingleton<IDanClient, DanClient>();
             services.TryAddSingleton<IMaskinportenService, MaskinportenService>();

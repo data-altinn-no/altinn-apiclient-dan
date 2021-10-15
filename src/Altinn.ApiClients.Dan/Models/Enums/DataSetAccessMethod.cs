@@ -3,9 +3,8 @@
 namespace Altinn.ApiClients.Dan.Models.Enums
 {
     /// <summary>
-    /// How the evidence is accessed
+    /// How the dataset is accessed
     /// </summary>
-    /// <value>How the evidence is accessed</value>
     public enum DataSetAccessMethod
     {
         /// <summary>
