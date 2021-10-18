@@ -113,7 +113,7 @@ namespace SampleWebApp.Controllers
             sb.AppendLine($"<tr><th>Requestor:</th><td>{acr.Requestor}</td></tr>");
             sb.AppendLine($"<tr><th>Subject:</th><td>{acr.Subject}</td></tr>");
             sb.AppendLine($"<tr><th>Issued:</th><td>{acr.Issued}</td></tr>");
-            sb.AppendLine($"<tr><th>Dataset(s):</th><td>{string.Join(", ", acr.DataSetCodes.Select(code => code.DataSetName))}</td></tr>");
+            sb.AppendLine($"<tr><th>Dataset(s):</th><td>{string.Join(", ", acr.DataSetDefinitions.Select(code => code.DataSetName))}</td></tr>");
             sb.AppendLine("</table>");
 
             return sb.ToString();

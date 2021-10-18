@@ -18,7 +18,7 @@ namespace Altinn.ApiClients.Dan.Models
         /// Gets or Sets Status
         /// </summary>
         [JsonPropertyName("status")]
-        public DataSetStatusCode Status { get; set; }
+        public DataSetRequestStatusCode Status { get; set; }
 
         /// <summary>
         /// From when the dataset is available

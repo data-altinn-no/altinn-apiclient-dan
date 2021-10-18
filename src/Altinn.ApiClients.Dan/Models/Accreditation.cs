@@ -35,7 +35,7 @@ namespace Altinn.ApiClients.Dan.Models
         [Required]
         [JsonPropertyName("aggregateStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DataSetStatusCode AggregateStatus { get; set; }
+        public DataSetRequestStatusCode AggregateStatus { get; set; }
 
         [JsonPropertyName("isDirectHarvest")] public bool IsDirectHarvest { get; set; }
 
@@ -44,7 +44,7 @@ namespace Altinn.ApiClients.Dan.Models
         /// </summary>
         [JsonPropertyName("evidenceCodes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public List<DataSetCode> DataSetCodes { get; set; }
+        public List<DataSetDefinition> DataSetDefinitions { get; set; }
 
         /// <summary>
         /// Gets or sets when the accreditation was created
@@ -97,6 +97,12 @@ namespace Altinn.ApiClients.Dan.Models
         {
             return DataSetWithVerifiedLegalBasis?.Count > 0;
         }
+
+        /// <summary>
+        /// Gets or sets the owner (organization number) for this accreditation.
+        /// </summary>
+        [JsonPropertyName("Owner")]
+        public string Owner { get; set; }
 
         /// <summary>
         /// The selected language for the accreditation, used for consent request texts and notifications, no-nb, no-nn or en

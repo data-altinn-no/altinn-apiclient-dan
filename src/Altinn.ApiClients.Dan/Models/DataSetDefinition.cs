@@ -7,9 +7,9 @@ namespace Altinn.ApiClients.Dan.Models
 {
 
     /// <summary>
-    /// Describing a DataSetCode and what values it carries. When used in context of a Accreditation, also includes the timespan of which the dataset is available
+    /// Describing a DataSet and what values it carries. When used in context of a Accreditation, also includes the timespan of which the dataset is available
     /// </summary>
-    public class DataSetCode
+    public class DataSetDefinition
     {
         /// <summary>
         /// Name of the dataset
