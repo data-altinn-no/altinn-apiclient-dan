@@ -25,7 +25,6 @@ namespace Altinn.ApiClients.Dan.Models.Enums
         /// <summary>
         /// Enum ConsentOrLegalBasis for consentOrLegalBasis
         /// </summary>
-        [EnumMember(Value = "consentOrLegalBasis")]
-        ConsentOrLegalBasis = 4
+        [EnumMember(Value = "consentOrLegalBasis")] ConsentOrLegalBasis = 4
     }
 }
