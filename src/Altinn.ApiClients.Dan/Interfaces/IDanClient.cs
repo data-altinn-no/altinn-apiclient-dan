@@ -14,7 +14,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
         Task<T> GetDataSet<T>(string dataSetName, string subject,
             string requestor = null, Dictionary<string, string> parameters = null, string deserializeField = null) where T : new();
 
-        Task<Accreditation> CreateDataSetRequest(DataSetRequest dataSetRequest, string subject,
+        Task<Accreditation> CreateDataSetRequest(List<DataSetRequest> dataSetRequest, string subject,
             string requestor = null, string consentRedirectUrl = null);
 
         Task<DataSet> GetDataSetFromAccreditation(string accreditationguid, string datasetname);
