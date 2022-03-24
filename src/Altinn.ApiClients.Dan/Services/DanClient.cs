@@ -49,13 +49,14 @@ namespace Altinn.ApiClients.Dan.Services
         }
 
         public async Task<Accreditation> CreateDataSetRequest(List<DataSetRequest> dataSetRequests, string subject,
-            string requestor = null, string consentRedirectUrl = null)
+            string requestor = null, string consentReference = null, string consentRedirectUrl = null)
         {
             var authorizationRequest = new AuthorizationRequest()
             {
                 DataSetRequests = dataSetRequests,
                 Subject = subject,
                 Requestor = requestor,
+                ConsentReference = consentReference,
                 ConsentReceiptRedirectUrl = consentRedirectUrl                
             };
 

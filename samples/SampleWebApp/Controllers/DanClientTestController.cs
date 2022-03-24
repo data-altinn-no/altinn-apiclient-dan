@@ -40,7 +40,7 @@ namespace SampleWebApp.Controllers
             var dataSetRequests = new List<DataSetRequest>();
             dataSetRequests.Add(GetDataSetRequest(datasetname, parameters));
 
-            Accreditation accreditation = await _danClient.CreateDataSetRequest(dataSetRequests, subject, "991825827", string.IsNullOrEmpty(parameters["redir"]) ? null : parameters["redir"]);
+            Accreditation accreditation = await _danClient.CreateDataSetRequest(dataSetRequests, subject, "991825827", string.IsNullOrEmpty(parameters["reference"]) ? null : parameters["reference"], string.IsNullOrEmpty(parameters["redir"]) ? null : parameters["redir"]);
 
             return Content(accreditation.ToHtmlTable(), "text/html; charset=utf-8");
         }
@@ -109,6 +109,7 @@ namespace SampleWebApp.Controllers
             sb.AppendLine($"<tr><th>Requestor:</th><td>{acr.Requestor}</td></tr>");
             sb.AppendLine($"<tr><th>Subject:</th><td>{acr.Subject}</td></tr>");
             sb.AppendLine($"<tr><th>Issued:</th><td>{acr.Issued}</td></tr>");
+            sb.AppendLine($"<tr><th>ConsentReference:</th><td>{acr.ConsentReference}</td></tr>");
             sb.AppendLine($"<tr><th>Dataset(s):</th><td>{string.Join(", ", acr.DataSetDefinitions.Select(code => code.DataSetName))}</td></tr>");
             sb.AppendLine("</table>");
 
