@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using Altinn.ApiClients.Dan.Interfaces;
-using Microsoft.Extensions.Options;
 
 namespace Altinn.ApiClients.Dan.Models
 {

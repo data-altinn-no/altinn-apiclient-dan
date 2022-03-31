@@ -112,7 +112,7 @@ namespace Altinn.ApiClients.Dan.Models
         public string LanguageCode { get; set; }
 
         /// <summary>
-        /// A list of timestampss and data set names
+        /// A list of timestampss and dataset names
         /// </summary>
         [JsonPropertyName("serviceContext")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

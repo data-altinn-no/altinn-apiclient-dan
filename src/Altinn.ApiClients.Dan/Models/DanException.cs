@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Refit;
 
 namespace Altinn.ApiClients.Dan.Models
@@ -39,7 +34,23 @@ namespace Altinn.ApiClients.Dan.Models
                 error = new Error { Code = -1, Description = "Unknown error" };
             }
 
-            return new DanException(error!.Description) { Error = error };
+            var message = error!.Description;
+            if (error.DetailCode != null)
+            {
+                message += $"; detailCode: {error.DetailCode}";
+            }
+
+            if (error.DetailDescription != null)
+            {
+                message += $"; detailDescription: {error.DetailDescription}";
+            }
+
+            if (error.InnerExceptionMessage != null)
+            {
+                message += $"; innerException: {error.InnerExceptionMessage}";
+            }
+
+            return new DanException(message) { Error = error };
         }
     }
 }

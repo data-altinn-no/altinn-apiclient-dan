@@ -18,10 +18,7 @@ namespace Altinn.ApiClients.Dan.Handlers
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (request.Headers.Authorization == null)
-            {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await _accessTokenRetriever.GetAccessToken());
-            }
+            request.Headers.Authorization ??= new AuthenticationHeaderValue("Bearer", await _accessTokenRetriever.GetAccessToken());
 
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 

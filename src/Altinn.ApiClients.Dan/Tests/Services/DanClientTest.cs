@@ -29,7 +29,10 @@ namespace Tests.Services
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<TokenOnBehalfOf?>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<string>()))
                 .ReturnsAsync(new DataSet
                 {
                     Values = new List<DataSetValue>
@@ -74,7 +77,10 @@ namespace Tests.Services
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<TokenOnBehalfOf?>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<string>()))
                 .ReturnsAsync(new DataSet
                 {
                     Values = new List<DataSetValue>
@@ -130,7 +136,10 @@ namespace Tests.Services
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<TokenOnBehalfOf?>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<string>()))
                 .ReturnsAsync(new DataSet
                 {
                     Values = new List<DataSetValue>
@@ -181,7 +190,10 @@ namespace Tests.Services
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<TokenOnBehalfOf?>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<string>()))
                 .ReturnsAsync(new DataSet
                 {
                     Values = new List<DataSetValue>
@@ -220,7 +232,10 @@ namespace Tests.Services
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<TokenOnBehalfOf?>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<string>()))
                 .ReturnsAsync(new DataSet
                 {
                     Values = new List<DataSetValue>
@@ -264,7 +279,10 @@ namespace Tests.Services
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<TokenOnBehalfOf?>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<string>()))
                 .ReturnsAsync(new DataSet
                 {
                     Values = new List<DataSetValue>

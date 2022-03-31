@@ -9,10 +9,12 @@ using Refit;
 
 namespace Altinn.ApiClients.Dan.Services
 {
+    /// <inheritdoc />
     public class DanClient : IDanClient
     {
         private readonly IDanApi _danApi;
 
+        /// <inheritdoc />
         public IDanConfiguration Configuration { get; set; }
 
         public DanClient(IDanApi danApi, IDanConfiguration danConfiguration = null)
@@ -21,12 +23,26 @@ namespace Altinn.ApiClients.Dan.Services
             _danApi = danApi;
         }
 
-        public async Task<DataSet> GetDataSet(string dataSetName, string subject,
-            string requestor = null, Dictionary<string, string> parameters = null)
+        /// <inheritdoc />
+        public async Task<DataSet> GetDataSet(
+            string dataSetName,
+            string subject,
+            string requestor = null,
+            Dictionary<string, string> parameters = null,
+            TokenOnBehalfOf? tokenOnBehalfOf = null,
+            bool reuseToken = false,
+            string forwardAccessToken = null)
         {
             try
             {
-                return await _danApi.GetDirectharvest(dataSetName, subject, requestor, parameters);
+                return await _danApi.GetDirectharvest(
+                    dataSetName,
+                    subject,
+                    requestor,
+                    parameters,
+                    tokenOnBehalfOf,
+                    reuseToken,
+                    forwardAccessToken);
             }
             catch (ApiException ex)
             {
@@ -34,13 +50,28 @@ namespace Altinn.ApiClients.Dan.Services
             }
         }
 
-        public async Task<T> GetDataSet<T>(string dataSetName, string subject,
-            string requestor = null, Dictionary<string, string> parameters = null, string deserializeField = null) where T : new()
+        /// <inheritdoc />
+        public async Task<T> GetDataSet<T>(
+            string dataSetName,
+            string subject,
+            string requestor = null,
+            Dictionary<string, string> parameters = null,
+            string deserializeField = null,
+            TokenOnBehalfOf? tokenOnBehalfOf = null,
+            bool reuseToken = false,
+            string forwardAccessToken = null) where T : new()
         {
             try
             {
-                var result = await GetDataSet(dataSetName, subject, requestor, parameters);
-                return GetDataSetResultAsTyped<T>(result, deserializeField);
+                var result = await GetDataSet(
+                    dataSetName,
+                    subject,
+                    requestor,
+                    parameters,
+                    tokenOnBehalfOf,
+                    reuseToken,
+                    forwardAccessToken);
+                return GetDataSetAsTyped<T>(result, deserializeField);
             }
             catch (ApiException ex)
             {
@@ -48,6 +79,7 @@ namespace Altinn.ApiClients.Dan.Services
             }
         }
 
+        /// <inheritdoc />
         public async Task<Accreditation> CreateDataSetRequest(List<DataSetRequest> dataSetRequests, string subject,
             string requestor = null, string consentReference = null, string consentRedirectUrl = null)
         {
@@ -57,7 +89,7 @@ namespace Altinn.ApiClients.Dan.Services
                 Subject = subject,
                 Requestor = requestor,
                 ConsentReference = consentReference,
-                ConsentReceiptRedirectUrl = consentRedirectUrl                
+                ConsentReceiptRedirectUrl = consentRedirectUrl
             };
 
             try
@@ -69,11 +101,23 @@ namespace Altinn.ApiClients.Dan.Services
                 throw DanException.FromApiException(ex);
             }
         }
-        public async Task<DataSet> GetDataSetFromAccreditation(string accreditationguid, string datasetname)
+
+        /// <inheritdoc />
+        public async Task<DataSet> GetDataSetFromAccreditation(
+            string accreditationguid,
+            string datasetname,
+            TokenOnBehalfOf? tokenOnBehalfOf = null,
+            bool reuseToken = false,
+            string forwardAccessToken = null)
         {
             try
             {
-                return await _danApi.GetEvidence(accreditationguid, datasetname);
+                return await _danApi.GetEvidence(
+                    accreditationguid,
+                    datasetname,
+                    tokenOnBehalfOf,
+                    reuseToken,
+                    forwardAccessToken);
             }
             catch (ApiException ex)
             {
@@ -81,12 +125,24 @@ namespace Altinn.ApiClients.Dan.Services
             }
         }
 
-        public async Task<T> GetDataSetFromAccreditation<T>(string accreditationguid, string datasetname, string deserializeField = null) where T : new()
+        /// <inheritdoc />
+        public async Task<T> GetDataSetFromAccreditation<T>(
+            string accreditationguid,
+            string datasetname,
+            string deserializeField = null,
+            TokenOnBehalfOf? tokenOnBehalfOf = null,
+            bool reuseToken = false,
+            string forwardAccessToken = null) where T : new()
         {
             try
             {
-                var result = await GetDataSetFromAccreditation(accreditationguid, datasetname);
-                return GetDataSetResultAsTyped<T>(result, deserializeField);
+                var result = await GetDataSetFromAccreditation(
+                    accreditationguid,
+                    datasetname,
+                    tokenOnBehalfOf,
+                    reuseToken,
+                    forwardAccessToken);
+                return GetDataSetAsTyped<T>(result, deserializeField);
             }
             catch (ApiException ex)
             {
@@ -94,6 +150,7 @@ namespace Altinn.ApiClients.Dan.Services
             }
         }
 
+        /// <inheritdoc />
         public async Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid, string dataSetName)
         {
             try
@@ -107,6 +164,7 @@ namespace Altinn.ApiClients.Dan.Services
             }
         }
 
+        /// <inheritdoc />
         public async Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid)
         {
             try
@@ -119,7 +177,16 @@ namespace Altinn.ApiClients.Dan.Services
             }
         }
 
-        private T GetDataSetResultAsTyped<T>(DataSet result, string deserializeField) where T : new()
+        /// <summary>
+        /// Attempts to deserialze the dataset to the supplied type parameter, using the deserializer supplied
+        /// in the configuration
+        /// </summary>
+        /// <typeparam name="T">The type to deserialize to</typeparam>
+        /// <param name="dataSet">The dataset containing a field to deserialize</param>
+        /// <param name="deserializeField">Optionally the field in the dataset to deserialize. If not supplied, use the first.</param>
+        /// <returns>The result as an instance of the supplied type.</returns>
+        /// <exception cref="DanException"></exception>
+        private T GetDataSetAsTyped<T>(DataSet dataSet, string deserializeField) where T : new()
         {
             try
             {
@@ -127,7 +194,7 @@ namespace Altinn.ApiClients.Dan.Services
                 if (deserializeField != null)
                 {
                     var deserializeDataSetValue =
-                        result.Values.FirstOrDefault(x => x.Name == deserializeField);
+                        dataSet.Values.FirstOrDefault(x => x.Name == deserializeField);
                     if (deserializeDataSetValue == null)
                     {
                         throw new DanException(
@@ -140,7 +207,7 @@ namespace Altinn.ApiClients.Dan.Services
                 }
 
                 // If deserializeField is not supplied, and the first field in the return is of type "JsonSchema", attempt to deserialize that and ignore everything else
-                var firstDataSetValue = result.Values.First();
+                var firstDataSetValue = dataSet.Values.First();
                 if (firstDataSetValue.ValueType == DataSetValueType.JsonSchema)
                 {
                     return firstDataSetValue.Value == null
