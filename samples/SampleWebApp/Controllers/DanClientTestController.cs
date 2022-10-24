@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Altinn.ApiClients.Dan.Interfaces;
 using Altinn.ApiClients.Dan.Models;
-using Altinn.ApiClients.Dan.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SampleWebApp.Controllers
@@ -35,6 +34,8 @@ namespace SampleWebApp.Controllers
             // Example mapping directly to a model
             UnitBasicInformation ubi =
                 await _danClient.GetDataSet<UnitBasicInformation>(datasetname, subject, null, parameters);
+
+            Console.WriteLine($"Retrieved information about {ubi.OrganizationName}");
 
             return Content(dataset.ToHtmlTable(), "text/html; charset=utf-8");
         }

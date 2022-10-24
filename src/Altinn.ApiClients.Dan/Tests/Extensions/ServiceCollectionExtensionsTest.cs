@@ -1,12 +1,7 @@
-using System.Net.Http;
 using Altinn.ApiClients.Dan.Extensions;
 using Altinn.ApiClients.Dan.Interfaces;
 using Altinn.ApiClients.Dan.Models;
 using Altinn.ApiClients.Dan.Services;
-using Altinn.ApiClients.Maskinporten.Handlers;
-using Altinn.ApiClients.Maskinporten.Interfaces;
-using Altinn.ApiClients.Maskinporten.Services;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
@@ -28,13 +23,10 @@ namespace Tests.Extensions
             //     danSettings.SubscriptionKey = "subkey";
             // }); 
 
-            ServiceCollectionExtensions.AddDanClient<SettingsJwkClientDefinition>(services);
+            ServiceCollectionExtensions.AddDanClient(services);
             var serviceProvider = services.BuildServiceProvider();
 
-            Assert.IsInstanceOf<MemoryCache>(serviceProvider.GetService<IMemoryCache>());
             Assert.IsInstanceOf<DanClient>(serviceProvider.GetService<IDanClient>());
-            Assert.IsInstanceOf<MaskinportenService>(serviceProvider.GetService<IMaskinportenService>());
-            Assert.IsInstanceOf<HttpClient>(serviceProvider.GetService<HttpClient>());
             Assert.NotNull(serviceProvider.GetService<IDanApi>());
         }
     }
