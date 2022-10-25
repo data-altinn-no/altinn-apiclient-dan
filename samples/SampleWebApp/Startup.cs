@@ -9,8 +9,6 @@ using Microsoft.Extensions.Hosting;
 
 namespace SampleWebApp
 {
-    public class MyClientForDan {}
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -22,19 +20,12 @@ namespace SampleWebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Named
-            services.AddMaskinportenHttpClient<SettingsJwkClientDefinition>("myClientForDan", Configuration.GetSection("MaskinportenSettings"));
+            services.RegisterMaskinportenClientDefinition<SettingsJwkClientDefinition>("my-client-definition-for-dan", 
+                Configuration.GetSection("MaskinportenSettingsForDanClient"));
 
             services
                 .AddDanClient(Configuration.GetSection("DanSettings"))
-                .AddMaskinportenHttpMessageHandler<SettingsJwkClientDefinition>("myClientForDan");
-
-            // Typed
-            services.AddMaskinportenHttpClient<SettingsJwkClientDefinition, MyClientForDan>(Configuration.GetSection("MaskinportenSettings"));
-
-            services
-                .AddDanClient(Configuration.GetSection("DanSettings"))
-                .AddMaskinportenHttpMessageHandler<SettingsJwkClientDefinition, MyClientForDan>();
+                .AddMaskinportenHttpMessageHandler<SettingsJwkClientDefinition>("my-client-definition-for-dan");
 
             services.AddControllers();
         }
@@ -49,8 +40,6 @@ namespace SampleWebApp
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

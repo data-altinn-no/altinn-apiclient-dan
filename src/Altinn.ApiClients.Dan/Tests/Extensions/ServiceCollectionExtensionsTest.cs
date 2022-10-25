@@ -23,7 +23,7 @@ namespace Tests.Extensions
             //     danSettings.SubscriptionKey = "subkey";
             // }); 
 
-            ServiceCollectionExtensions.AddDanClient(services);
+            services.AddDanClient();
             var serviceProvider = services.BuildServiceProvider();
 
             Assert.IsInstanceOf<DanClient>(serviceProvider.GetService<IDanClient>());

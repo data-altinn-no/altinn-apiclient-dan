@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Altinn.ApiClients.Maskinporten" Version="4.0.0-preview2" />
+    <PackageReference Include="Altinn.ApiClients.Maskinporten" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,24 +9,15 @@ Get latest release from [nuget.org](https://www.nuget.org/packages/Altinn.ApiCli
 
 ## Usage
 
-Altinn.ApiClients.Dan relies on [Altinn.ApiClients.Maskinporten](https://github.com/Altinn/altinn-apiclient-maskinporten/) for authentication against data.altinn.no. You will need to configure a client provisioned with the scopes you need (at minimum `altinn:dataaltinnno`, which is openly available), and configure a secret (enterprise certificate or RSA private key) used for signing requests to Maskinporten. See [Altinn.ApiClients.Maskinporten](https://github.com/Altinn/altinn-apiclient-maskinporten/) documentation on the different options available and how you can implement your custom provider if needed. In this example, we use a private key within a PKCS#12-formatted file.
+As of version 3.x, Altinn.ApiClients.Dan no longer depends on [Altinn.ApiClients.Maskinporten](https://github.com/Altinn/altinn-apiclient-maskinporten/) for authentication against data.altinn.no, but its use is still recommended for most cases. In order for the Dan client to authenticate, you must provide a HttpMessageHandler. Using the extension methods provided by Altinn.ApiClients.Maskinporten is a convenient way of getting a handler that gets a Maskinporten access token. See [Altinn.ApiClients.Maskinporten](https://github.com/Altinn/altinn-apiclient-maskinporten/) documentation on the different options available and how you can implement your custom provider if needed. 
 
 ### Add configuration
 
-The IOptions-pattern is used for loading configuration. You need two sections - one for data.altinn.no (subscription key and environment) and one for configuring the Maksinporten-client.Add the sections to your appsettings.json (or other configuration store). You can name the sections what you want; you'll refer them in the next step.
+Configuration for DAN should be made available via the standard IConfiguration mechanism; the use of the IOptions pattern is not mandatoary. Add the section below to your appsettings.json (or other configuration store). You can name the sections what you want; you'll refer them in the next step.
 
 ```jsonc
 {
-  "MyMaskinportenSettings": {
-      // "ver2" is test environment, use "prod" for production. 
-      // Use "ver2" for both non-production Dan-environments
-      "Environment": "ver2", 
-      "ClientId": "12345678-abcd-def01-2345-67890123456",
-      "Scope": "altinn:dataaltinnno", // add additional scopes here space separated
-      "CertificatePkcs12Path": "path/to/your/cert-with-privatekey.p12",
-      "CertificatePkcs12Password": "password-for-p12-file"
-  },
-  "MyDanSettings": {
+    "MyDanSettings": {
       // "dev" is the development environment for bleeding edge, 
       // "staging" is the pre-prod environment and "prod" is production
       "Environment": "dev",
@@ -40,33 +31,47 @@ The IOptions-pattern is used for loading configuration. You need two sections - 
 In Startup.cs, add the following to your `ConfigureServices`-method:
 
 ```csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    // Configuration for DAN (environment and subscription key)
-    services.Configure<DanSettings>(Configuration.GetSection("MyDanSettings"));
-  
-    // Configuration for Maskinporten, using a local PKCS#12 file containing 
-    // private certificate for signing Maskinporten requests
-    services.Configure<MaskinportenSettings<Pkcs12ClientDefinition>>(
-      Configuration.GetSection("MyMaskinportenSettings"));
-  
-    // This registers an IDanClient for injection in your application code
-    services.AddDanClient<Pkcs12ClientDefinition>();
 
-    // This does the same, but configures it to use Newtonsoft.Json instead of
-    // the default System.Text.Json deserializer using custom serializer settings
-    /*
-    services.AddDanClient<Pkcs12ClientDefinition>(sp => new DanConfiguration
+
+public class Startup {
+
+    public IConfiguration Configuration { get; }
+
+    public Startup(IConfiguration configuration)
     {
-        // Use Newtonsoft.Json instead of System.Text.Json
-        Deserializer = new JsonNetDeserializer {
-            SerializerSettings = new JsonSerializerSettings()
-            {
-                DateFormatString = "yyyy_MM_dd"
+        Configuration = configuration;
+    }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // This registers an IDanClient for injection in your application code. Note that
+        // this does not perform any authentication.
+        services.AddDanClient(Configuration.GetSection("MyDanSettings"));
+
+
+        // This does the same, but configures it to use Newtonsoft.Json instead of
+        // the default System.Text.Json deserializer using custom serializer settings
+        services.AddDanClient<Pkcs12ClientDefinition>(sp => new DanConfiguration
+        {
+            // Use Newtonsoft.Json instead of System.Text.Json
+            Deserializer = new JsonNetDeserializer {
+                SerializerSettings = new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy_MM_dd"
+                }
             }
-        }
-    });
-    */
+        });
+
+        // Using DAN with Altinn.ApiClients.Maskinporten. Here we use the extension methods provided by
+        // that library to first register a client definition instance and the attach it as a HttpMessageHandler
+        // to DAN.
+        services.RegisterMaskinportenClientDefinition<SettingsJwkClientDefinition>("my-client-definition-for-dan", 
+          Configuration.GetSection("MaskinportenSettingsForDanClient"));
+
+        services
+            .AddDanClient(Configuration.GetSection("DanSettings"))
+            .AddMaskinportenHttpMessageHandler<SettingsJwkClientDefinition>("my-client-definition-for-dan");
+    }
 }
 ```
 
