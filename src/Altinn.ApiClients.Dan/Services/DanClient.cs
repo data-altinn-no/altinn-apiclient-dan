@@ -51,7 +51,7 @@ namespace Altinn.ApiClients.Dan.Services
             }
             catch (ApiException ex)
             {
-                throw DanException.FromApiException(ex); 
+                throw DanException.FromApiException(ex);
             }
         }
 
@@ -96,7 +96,7 @@ namespace Altinn.ApiClients.Dan.Services
 
                     return GetUnenvelopedDataSetAsTyped<T>(result);
                 }
-                
+
             }
             catch (ApiException ex)
             {
@@ -273,6 +273,45 @@ namespace Altinn.ApiClients.Dan.Services
             catch (Exception ex)
             {
                 throw new DanException("Unable to deserialize to requested type: " + ex.Message, ex);
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<List<string>> GetAllServiceContexts()
+        {
+            try
+            {
+                return await _danApi.GetAllServiceContexts();
+            }
+            catch (Exception ex)
+            {
+                throw new DanException("Test error: " + ex.Message, ex);
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<List<DataSetDefinition>> GetAllDatasets()
+        {
+            try
+            {
+                return await _danApi.GetAllDatasets();
+            }
+            catch (Exception ex)
+            {
+                throw new DanException("Test error: " + ex.Message, ex);
+            }
+        }
+
+        /// <inheritdoc />
+        public Task<List<DataSetDefinition>> GetDatasetsForServiceContext(string serviceContext)
+        {
+            try
+            {
+                return _danApi.GetAllDatasets(serviceContext);
+            }
+            catch (Exception ex)
+            {
+                throw new DanException("Test error: " + ex.Message, ex);
             }
         }
     }

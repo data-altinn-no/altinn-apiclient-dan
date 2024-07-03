@@ -112,5 +112,22 @@ namespace Altinn.ApiClients.Dan.Interfaces
         [Post("/authorization")]
         [Headers("Content-Type: application/json")]
         Task<Accreditation> PostAuthorization([Body(buffered: true)] AuthorizationRequest authorizationRequest);
+
+        /// <summary>
+        /// Gets all available service contexts
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of void</returns>
+        [Get("/public/metadata/servicecontexts")]
+        Task<List<string>> GetAllServiceContexts();
+
+        /// <summary>
+        /// Gets all available datasets
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="serviceContext">Optional service context for dataset</param>
+        /// <returns>Task of void</returns>
+        [Get("/public/metadata/evidencecodes/{serviceContext}")]
+        Task<List<DataSetDefinition>> GetAllDatasets(string serviceContext = null);
     }
 }
