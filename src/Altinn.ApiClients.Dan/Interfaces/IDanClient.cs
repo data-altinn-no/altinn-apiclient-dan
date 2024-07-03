@@ -152,7 +152,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// </summary>
         /// <returns>A list of all datasets</returns>
         /// <exception cref="DanException"></exception>
-        Task<List<EvidenceCode>> GetAllDatasets();
+        Task<List<DataSetDefinition>> GetAllDatasets();
 
         /// <summary>
         /// Gets all datasets for a specific service context
@@ -160,6 +160,6 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="serviceContext">The service context</param>
         /// <returns>A list of all datasets for the service context</returns>
         /// <exception cref="DanException"></exception>
-        Task<List<EvidenceCode>> GetDatasetsForServiceContext(string serviceContext);
+        Task<List<DataSetDefinition>> GetDatasetsForServiceContext(string serviceContext);
     }
 }

@@ -128,6 +128,6 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="serviceContext">Optional service context for dataset</param>
         /// <returns>Task of void</returns>
         [Get("/public/metadata/evidencecodes/{serviceContext}")]
-        Task<List<EvidenceCode>> GetAllDatasets(string serviceContext = null);
+        Task<List<DataSetDefinition>> GetAllDatasets(string serviceContext = null);
     }
 }

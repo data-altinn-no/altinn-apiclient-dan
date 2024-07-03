@@ -290,7 +290,7 @@ namespace Altinn.ApiClients.Dan.Services
         }
 
         /// <inheritdoc />
-        public async Task<List<EvidenceCode>> GetAllDatasets()
+        public async Task<List<DataSetDefinition>> GetAllDatasets()
         {
             try
             {
@@ -303,7 +303,7 @@ namespace Altinn.ApiClients.Dan.Services
         }
 
         /// <inheritdoc />
-        public Task<List<EvidenceCode>> GetDatasetsForServiceContext(string serviceContext)
+        public Task<List<DataSetDefinition>> GetDatasetsForServiceContext(string serviceContext)
         {
             try
             {
