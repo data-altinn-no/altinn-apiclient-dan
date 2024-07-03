@@ -74,12 +74,12 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="legalBasisList">List of legal basis elements referenced from dataset requests, if any</param>
         /// <returns>The accreditation object</returns>
         Task<Accreditation> CreateDataSetRequest(
-            List<DataSetRequest> dataSetRequest, 
+            List<DataSetRequest> dataSetRequest,
             string subject,
-            string requestor = null, 
-            string consentReference = null, 
-            string consentRedirectUrl = null, 
-            bool skipAltinnNotification = false, 
+            string requestor = null,
+            string consentReference = null,
+            string consentRedirectUrl = null,
+            bool skipAltinnNotification = false,
             List<LegalBasis> legalBasisList = null);
 
         /// <summary>
@@ -139,5 +139,27 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <returns>The request status for all datasets</returns>
         /// <exception cref="DanException"></exception>
         Task<List<DataSetRequestStatus>> GetRequestStatus(string accreditationGuid);
+
+        /// <summary>
+        /// Gets all service contexts
+        /// </summary>
+        /// <returns>A list of all service contexts</returns>
+        /// <exception cref="DanException"></exception>
+        Task<List<string>> GetAllServiceContexts();
+
+        /// <summary>
+        /// Gets all datasets
+        /// </summary>
+        /// <returns>A list of all datasets</returns>
+        /// <exception cref="DanException"></exception>
+        Task<List<EvidenceCode>> GetAllDatasets();
+
+        /// <summary>
+        /// Gets all datasets for a specific service context
+        /// </summary>
+        /// <param name="serviceContext">The service context</param>
+        /// <returns>A list of all datasets for the service context</returns>
+        /// <exception cref="DanException"></exception>
+        Task<List<EvidenceCode>> GetDatasetsForServiceContext(string serviceContext);
     }
 }
