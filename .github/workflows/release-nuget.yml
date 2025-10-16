@@ -15,10 +15,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup build environment
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
@@ -48,7 +48,7 @@ jobs:
       run: dotnet pack --configuration Release /p:Version=${VERSION} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg --output . ${SOLUTION}
 
     - name: Upload NuGet packages as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nuget-packages
         path: ./*.*nupkg      
@@ -58,12 +58,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download NuGet packages from artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: nuget-packages
   
     - name: Push to GitHub Packages
-      run: dotnet nuget push *.${{ needs.build.outputs.version }}.nupkg --source https://nuget.pkg.github.com/${GITHUB_REPOSITORY%/*}/index.json --api-key ${GITHUB_TOKEN}
+      run: dotnet nuget push *.${{ needs.build.outputs.version }}.nupkg --source https://nuget.pkg.github.com/${GITHUB_REPOSITORY%/*}/index.json --api-key ${GITHUB_TOKEN} --skip-duplicate
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download NuGet packages from artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: nuget-packages
   
@@ -80,5 +80,5 @@ jobs:
       env:
         NUGET_ORG_API_KEY: ${{secrets.NUGET_ORG_API_KEY}}
       if: env.NUGET_ORG_API_KEY != null
-      run: dotnet nuget push *.${{ needs.build.outputs.version }}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_ORG_API_KEY }}
+      run: dotnet nuget push *.${{ needs.build.outputs.version }}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_ORG_API_KEY }} --skip-duplicate
   
