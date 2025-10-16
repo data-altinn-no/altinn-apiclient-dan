@@ -1,7 +1,7 @@
 # Altinn.ApiClients.Dan
 
 ## About
-This is a .NET6 client for [data.altinn.no](https://data.altinn.no) APIs that makes it easy to consume [published datasets](https://altinn.github.io/docs/utviklingsguider/data.altinn.no/beviskoder/) in your .NET6 (or later) based integrations.
+This is a .NET8 client for [data.altinn.no](https://data.altinn.no) APIs that makes it easy to consume [published datasets](https://altinn.github.io/docs/utviklingsguider/data.altinn.no/beviskoder/) in your .NET6 (or later) based integrations.
 
 ## Installation
 
