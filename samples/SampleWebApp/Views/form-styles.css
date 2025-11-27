@@ -1,0 +1,291 @@
+﻿/* Clean Form Styles with Perfect Vertical and Horizontal Alignment */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+/* Container for the form */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+/* Section styling */
+h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+    h3:first-child {
+        margin-top: 0;
+    }
+
+/* Form field container - ensures consistent alignment */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Label styling - consistent width and alignment */
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.9em;
+    display: block;
+    min-height: 20px;
+    line-height: 1.4;
+}
+
+/* Input styling - consistent dimensions */
+input[type="text"] {
+    padding: 10px 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    width: 100%;
+    max-width: 400px;
+    height: 42px; /* Fixed height for perfect alignment */
+}
+
+    input[type="text"]:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+/* Checkbox styling with proper alignment */
+input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* Checkbox container for better alignment */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    min-height: 42px; /* Same height as text inputs */
+}
+
+    .checkbox-container label {
+        margin-bottom: 0;
+        margin-left: 5px;
+        font-weight: normal;
+        display: flex;
+        align-items: center;
+    }
+
+/* Button styling - aligned with textboxes */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    height: 42px; /* Same height as inputs */
+    max-width: 250px;
+    margin-left: 0; /* Align with left edge of textboxes */
+}
+
+    button:hover {
+        background-color: #2980b9;
+        transform: translateY(-1px);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+/* Section containers */
+.section {
+    background-color: #fafbfc;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Specific styling for your form structure */
+/* This targets the existing HTML structure without requiring changes */
+body > h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+    body > h3:first-of-type {
+        margin-top: 0;
+    }
+
+/* Direct child labels and inputs for vertical alignment */
+body > label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color: #555;
+    font-size: 0.9em;
+    display: block;
+    min-height: 20px;
+}
+
+body > input[type="text"] {
+    padding: 10px 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    width: 100%;
+    max-width: 400px;
+    height: 42px;
+    margin-bottom: 10px;
+    margin-left: 0; /* Ensure left alignment */
+}
+
+    body > input[type="text"]:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+/* Button alignment - horizontally aligned with textboxes */
+body > button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 0; /* Align with left edge of textboxes */
+    height: 42px;
+    max-width: 250px;
+    display: inline-block; /* Ensure proper alignment */
+}
+
+    body > button:hover {
+        background-color: #2980b9;
+        transform: translateY(-1px);
+    }
+
+    body > button:active {
+        transform: translateY(0);
+    }
+
+/* Special handling for checkbox labels to align with textboxes */
+body > label:has(+ input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    margin-bottom: 0;
+}
+
+body > input[type="checkbox"] {
+    margin-left: 0;
+    margin-right: 8px;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* Remove default margins from br tags for better control */
+br {
+    line-height: 0;
+    margin: 0;
+}
+
+/* Create consistent form sections */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align all elements to the left */
+}
+
+    /* Ensure all form elements start at the same horizontal position */
+    body > h3,
+    body > label,
+    body > input[type="text"],
+    body > input[type="checkbox"],
+    body > button {
+        margin-left: 0;
+        align-self: flex-start;
+    }
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    input[type="text"],
+    body > input[type="text"] {
+        max-width: 100%;
+    }
+
+    button,
+    body > button {
+        max-width: 100%;
+    }
+}
+
+/* Status indicators */
+.status-success {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.status-error {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Helper text */
+.helper-text {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    margin-top: 5px;
+}

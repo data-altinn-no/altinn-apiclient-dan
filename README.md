@@ -11,6 +11,8 @@ Get latest release from [nuget.org](https://www.nuget.org/packages/Altinn.ApiCli
 
 As of version 3.x, Altinn.ApiClients.Dan no longer depends on [Altinn.ApiClients.Maskinporten](https://github.com/Altinn/altinn-apiclient-maskinporten/) for authentication against data.altinn.no, but its use is still recommended for most cases. In order for the Dan client to authenticate, you must provide a HttpMessageHandler. Using the extension methods provided by Altinn.ApiClients.Maskinporten is a convenient way of getting a handler that gets a Maskinporten access token. See [Altinn.ApiClients.Maskinporten](https://github.com/Altinn/altinn-apiclient-maskinporten/) documentation on the different options available and how you can implement your custom provider if needed. 
 
+The GetDataset methods switch between POST and GET implementations based on length of subject. If the subject is a person's NiN, the data will be retrieved with a POST request with the NiN in the body. Otherwise it will use the default GET operation.
+
 ### Add configuration
 
 Configuration for DAN should be made available via the standard IConfiguration mechanism; the use of the IOptions pattern is not mandatoary. Add the section below to your appsettings.json (or other configuration store). You can name the sections what you want; you'll refer them in the next step.

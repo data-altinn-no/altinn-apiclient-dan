@@ -40,14 +40,28 @@ namespace Altinn.ApiClients.Dan.Services
         {
             try
             {
-                return await _danApi.GetDirectharvest(
-                    dataSetName,
-                    subject,
-                    requestor,
-                    parameters,
-                    tokenOnBehalfOfOwner,
-                    reuseToken,
-                    forwardAccessToken);
+                if (IsNiN(subject))
+                {                     
+                    return await _danApi.PostDirectharvest(                            
+                        new DirectHarvestPostBody { Subject = subject },
+                        dataSetName,
+                        requestor,
+                        parameters,
+                        tokenOnBehalfOfOwner,
+                        reuseToken,
+                        forwardAccessToken);                    
+                } 
+                else
+                {
+                    return await _danApi.GetDirectharvest(
+                        dataSetName,
+                        subject,
+                        requestor,
+                        parameters,
+                        tokenOnBehalfOfOwner,
+                        reuseToken,
+                        forwardAccessToken);
+                }
             }
             catch (ApiException ex)
             {
@@ -84,17 +98,33 @@ namespace Altinn.ApiClients.Dan.Services
                 }
                 else
                 {
-                    var result = await _danApi.GetDirectharvestUnenveloped(
-                        dataSetName,
-                        subject,
-                        requestor,
-                        parameters,
-                        tokenOnBehalfOfOwner,
-                        reuseToken,
-                        forwardAccessToken,
-                        query);
+                    if (IsNiN(subject))
+                    {
+                        var postResult = await _danApi.PostDirectharvestUnenveloped(
+                            new DirectHarvestPostBody { Subject = subject },
+                            dataSetName,
+                            requestor,
+                            parameters,
+                            tokenOnBehalfOfOwner,
+                            reuseToken,
+                            forwardAccessToken,
+                            query);
+                        return GetUnenvelopedDataSetAsTyped<T>(postResult);
+                    } 
+                    else
+                    {
+                        var result = await _danApi.GetDirectharvestUnenveloped(
+                            dataSetName,
+                            subject,
+                            requestor,
+                            parameters,
+                            tokenOnBehalfOfOwner,
+                            reuseToken,
+                            forwardAccessToken,
+                            query);
 
-                    return GetUnenvelopedDataSetAsTyped<T>(result);
+                        return GetUnenvelopedDataSetAsTyped<T>(result);
+                    }
                 }
 
             }
@@ -102,7 +132,7 @@ namespace Altinn.ApiClients.Dan.Services
             {
                 throw DanException.FromApiException(ex);
             }
-        }
+        }        
 
         /// <inheritdoc />
         public async Task<Accreditation> CreateDataSetRequest(List<DataSetRequest> dataSetRequests, string subject,
@@ -314,5 +344,7 @@ namespace Altinn.ApiClients.Dan.Services
                 throw new DanException("Test error: " + ex.Message, ex);
             }
         }
+
+        private bool IsNiN(string subject) => !string.IsNullOrEmpty(subject) && subject.Length == 11;
     }
 }
