@@ -3,7 +3,7 @@
 namespace Altinn.ApiClients.Dan.Models
 {
     /// <summary>
-    /// Dataset request as part of an Authorization model
+    /// Request body for directharvest POST calls where the subject is sent in the body.
     /// </summary>
     public class DirectHarvestPostBody
     {

@@ -40,13 +40,14 @@ namespace SampleWebApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(env.ContentRootPath, "Views")),
                 RequestPath = "/Views"
             });
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 

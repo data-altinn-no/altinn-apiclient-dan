@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <None Update="Views\form-styles.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Views\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
