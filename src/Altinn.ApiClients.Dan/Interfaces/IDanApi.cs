@@ -43,6 +43,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
         /// <param name="forwardAccessToken">If set, will use the supplied value as the access token against the dataset source. Overrides <c>tokenOnBehalfOfOwner</c> and <c>reuseToken</c></param>
         /// <returns>The dataset requested</returns>
         [Post("/directharvest/{evidenceCode}")]
+        [Headers("Content-Type: application/json")]
         Task<DataSet> PostDirectharvest(
             [Body(buffered: true)] DirectHarvestPostBody body,
             string evidenceCode,
