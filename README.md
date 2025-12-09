@@ -15,7 +15,7 @@ The GetDataset methods switch between POST and GET implementations based on leng
 
 ### Add configuration
 
-Configuration for DAN should be made available via the standard IConfiguration mechanism; the use of the IOptions pattern is not mandatoary. Add the section below to your appsettings.json (or other configuration store). You can name the sections what you want; you'll refer them in the next step.
+Configuration for DAN should be made available via the standard IConfiguration mechanism; the use of the IOptions pattern is not mandatory. Add the section below to your appsettings.json (or other configuration store). You can name the sections what you want; you'll refer them in the next step.
 
 ```jsonc
 {
