@@ -1,12 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="utf-8" />
     <title></title>
     <script>
-        var setup = function() {
+        var setup = function () {
             document.getElementById('get1').addEventListener('click',
-                function() {
+                function () {
                     window.location = "/danclienttest/get/UnitBasicInformation/" + document.getElementById('subject1').value;
                 });
 
@@ -30,36 +31,39 @@
         window.onload = setup;
 
     </script>
+    <link rel="stylesheet" href="/Views/form-styles.css">
 </head>
 <body>
-    <h3>1. Get basic unit information (direct harvest)</h3>
-    <label>Organization number</label>
-    <input type="text" id="subject1" value="991825827">
-    <button id="get1">Get</button>
+    <div class="container">
+        <h3>1. Get basic unit information (direct harvest)</h3>
+        <label>Organization number</label>
+        <input type="text" id="subject1" value="991825827">
+        <button id="get1">Get</button>
 
-    <h3>2a. Get basic unit information (authrequest)</h3>
-    <label>Organization number</label>
-    <input type="text" id="subject2" value="991825827"><br />
+        <h3>2a. Get basic unit information (authrequest)</h3>
+        <label>Organization number</label>
+        <input type="text" id="subject2" value="991825827"><br />
 
-    <label>ConsentReference</label>
-    <input type="text" id="reference" value="referencexxx"> <br />
+        <label>ConsentReference</label>
+        <input type="text" id="reference" value="referencexxx"> <br />
 
-    <label>Skip sending Altinn notification for consent</label>
-    <input type="checkbox" id="skipCorr" value=""> <br />
+        <label>Skip sending Altinn notification for consent</label>
+        <input type="checkbox" id="skipCorr" value=""> <br />
 
-    <label>Redirecturl</label>
-    <input type="text" id="redir" value="https://www.vg.no"><br />
+        <label>Redirecturl</label>
+        <input type="text" id="redir" value="https://www.vg.no"><br />
 
-    <button id="get2">Get accreditation </button> (copy AccreditationId from the next page)
+        <button id="get2">Get accreditation </button> (copy AccreditationId from the next page)
 
-    <h3>2b. Get accreditation status</h3>
-    <label>Accreditation-ID</label>
-    <input type="text" id="acn1" value="">
-    <button id="get3">Get status for accreditation</button>
+        <h3>2b. Get accreditation status</h3>
+        <label>Accreditation-ID</label>
+        <input type="text" id="acn1" value="">
+        <button id="get3">Get status for accreditation</button>
 
-    <h3>2c. Harvest</h3>
-    <label>Accreditation-ID</label>
-    <input type="text" id="acn2" value="">
-    <button id="get4">Harvest data for accreditation</button>
+        <h3>2c. Harvest</h3>
+        <label>Accreditation-ID</label>
+        <input type="text" id="acn2" value="">
+        <button id="get4">Harvest data for accreditation</button>
+    </div>
 </body>
 </html>

@@ -32,6 +32,28 @@ namespace Altinn.ApiClients.Dan.Interfaces
             [Header("X-Forward-Access-Token")] string forwardAccessToken = null);
 
         /// <summary>
+        /// Gets a dataset directly without a pre-existing accreditation with subject in body to avoid logging of NiN
+        /// </summary>
+        /// <param name="body">Input model containing the subject identifier</param>
+        /// <param name="evidenceCode">The name of the dataset to request</param>
+        /// <param name="requestor">The party requesting data. If not set, will use authenticated party.</param>
+        /// <param name="parameters">Any query parameters the dataset supports/requires</param>
+        /// <param name="tokenOnBehalfOfOwner">If set, will attempt to get supplier access token onbehalf of the authenticated party</param>
+        /// <param name="reuseToken">If true, will re-use access token supplied to DAN against the dataset source. Overrides <c>tokenOnBehalfOfOwner</c></param>
+        /// <param name="forwardAccessToken">If set, will use the supplied value as the access token against the dataset source. Overrides <c>tokenOnBehalfOfOwner</c> and <c>reuseToken</c></param>
+        /// <returns>The dataset requested</returns>
+        [Post("/directharvest/{evidenceCode}")]
+        [Headers("Content-Type: application/json")]
+        Task<DataSet> PostDirectharvest(
+            [Body(buffered: true)] DirectHarvestPostBody body,
+            string evidenceCode,
+            string requestor = null,
+            Dictionary<string, string> parameters = null,
+            bool tokenOnBehalfOfOwner = false,
+            bool reuseToken = false,
+            [Header("X-Forward-Access-Token")] string forwardAccessToken = null);
+
+        /// <summary>
         /// Gets a dataset directly without a pre-existing accreditation, not using a response envelope
         /// </summary>
         /// <param name="evidenceCode">The name of the dataset to request</param>
@@ -54,6 +76,29 @@ namespace Altinn.ApiClients.Dan.Interfaces
             [Header("X-Forward-Access-Token")] string forwardAccessToken = null,
             string query = null);
 
+        /// <summary>
+        /// Gets a dataset directly without a pre-existing accreditation, not using a response envelope, but with subject in body to avoid logging of NiN
+        /// </summary>
+        /// <param name="body">Input model containing the subject identifier</param>
+        /// <param name="evidenceCode">The name of the dataset to request</param>        
+        /// <param name="requestor">The party requesting data. If not set, will use authenticated party.</param>
+        /// <param name="parameters">Any query parameters the dataset supports/requires</param>
+        /// <param name="tokenOnBehalfOfOwner">If set, will attempt to get supplier access token onbehalf of the authenticated party</param>
+        /// <param name="reuseToken">If true, will re-use access token supplied to DAN against the dataset source. Overrides <c>tokenOnBehalfOfOwner</c></param>
+        /// <param name="forwardAccessToken">If set, will use the supplied value as the access token against the dataset source. Overrides <c>tokenOnBehalfOfOwner</c> and <c>reuseToken</c></param>
+        /// <param name="query">Optional JMESPath query to filter/transform the dataset</param>
+        /// <returns>The dataset requested as a JSON string</returns>
+        [Post("/directharvest/{evidenceCode}?envelope=false")]
+        [Headers("Content-Type: application/json")]
+        Task<string> PostDirectharvestUnenveloped(
+            [Body(buffered: true)] DirectHarvestPostBody body,
+            string evidenceCode,           
+            string requestor = null,
+            Dictionary<string, string> parameters = null,
+            bool tokenOnBehalfOfOwner = false,
+            bool reuseToken = false,
+            [Header("X-Forward-Access-Token")] string forwardAccessToken = null,
+            string query = null);
 
         /// <summary>
         /// Gets a dataset associated with an existing accreditation

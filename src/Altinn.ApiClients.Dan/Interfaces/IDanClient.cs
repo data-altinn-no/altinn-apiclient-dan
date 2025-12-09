@@ -16,7 +16,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
 
 
         /// <summary>
-        /// Gets a dataset directly without a pre-existing accreditation
+        /// Gets a dataset directly without a pre-existing accreditation, automatically switches to POST method in the DAN api if the subject is a NiN (length 11)
         /// </summary>
         /// <param name="dataSetName">The name of the dataset to request</param>
         /// <param name="subject">The party data is requested for</param>
@@ -36,8 +36,8 @@ namespace Altinn.ApiClients.Dan.Interfaces
             string forwardAccessToken = null);
 
         /// <summary>
-        /// Gets a dataset directly without a pre-existing accreditation, deserializing a single field in the
-        /// dataset to a model. This field will have to be of type "JsonSchema". Will unless <c>deserializeField</c>
+        /// Gets a dataset directly without a pre-existing accreditation,  automatically switches to POST method in the DAN api if the subject is a NiN (length 11),
+        /// deserializing a single field in the dataset to a model. This field will have to be of type "JsonSchema". Will unless <c>deserializeField</c>
         /// is supplied, attempt to deserialize the first field in the dataset.
         /// </summary>
         /// <typeparam name="T">The model the result should deserialize to</typeparam>
@@ -60,7 +60,7 @@ namespace Altinn.ApiClients.Dan.Interfaces
             bool tokenOnBehalfOfOwner = false,
             bool reuseToken = false,
             string forwardAccessToken = null,
-            string query = null) where T : new();
+            string query = null) where T : new();  
 
         /// <summary>
         /// Creates a dataset request to the supplied list of datasets and optional parameters.

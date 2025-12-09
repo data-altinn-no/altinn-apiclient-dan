@@ -62,7 +62,6 @@ namespace Tests.Services
             Assert.AreEqual(result.SomeNumber, (decimal)123);
             Assert.IsNotNull(result.SomeDateTime);
             Assert.IsFalse(result.SomeDateTime.Equals(DateTime.MinValue));
-
         }
 
         [Test]
@@ -215,8 +214,8 @@ namespace Tests.Services
             // Setup
             var danApi = new Mock<IDanApi>();
             danApi
-                .Setup(x => x.GetDirectharvestUnenveloped(
-                    It.IsAny<string>(),
+                .Setup(x => x.PostDirectharvestUnenveloped(
+                    It.IsAny<DirectHarvestPostBody>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<Dictionary<string, string>>(),
@@ -229,7 +228,7 @@ namespace Tests.Services
             var danClient = new DanClient(danApi.Object);
 
             // Act
-            MyModel result = await danClient.GetDataSet<MyModel>("a", "a");
+            MyModel result = await danClient.GetDataSet<MyModel>("a", "12345678910");
 
             // Verify
             Assert.IsNotNull(result);
