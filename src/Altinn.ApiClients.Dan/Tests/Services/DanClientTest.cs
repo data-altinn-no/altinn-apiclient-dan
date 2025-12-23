@@ -6,7 +6,7 @@ using Altinn.ApiClients.Dan.Interfaces;
 using Altinn.ApiClients.Dan.Models;
 using Altinn.ApiClients.Dan.Models.Enums;
 using Altinn.ApiClients.Dan.Services;
-using Moq;
+using FakeItEasy;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -21,17 +21,16 @@ namespace Tests.Services
         public async Task DeserializeTypedToSuppliedField_Ok()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.GetDirectharvest(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync(new DataSet
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.GetDirectharvest(
+                    A<string>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._))
+                .Returns(new DataSet
                 {
                     Values = new List<DataSetValue>
                     {
@@ -51,7 +50,7 @@ namespace Tests.Services
                     }
                 });
 
-            var danClient = new DanClient(danApi.Object);
+            var danClient = new DanClient(danApi);
 
             // Act
             MyModel result = await danClient.GetDataSet<MyModel>("a", "a", deserializeField: "SomeJson");
@@ -68,17 +67,16 @@ namespace Tests.Services
         public async Task DeserializeTypedToSuppliedFieldJsonNet_Ok()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.GetDirectharvest(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync(new DataSet
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.GetDirectharvest(
+                    A<string>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._))
+                .Returns(new DataSet
                 {
                     Values = new List<DataSetValue>
                     {
@@ -98,7 +96,7 @@ namespace Tests.Services
                     }
                 });
 
-            var danClient = new DanClient(danApi.Object)
+            var danClient = new DanClient(danApi)
             {
                 Configuration = new DanConfiguration
                 {
@@ -127,20 +125,19 @@ namespace Tests.Services
         public async Task DeserializeTypedToSuppliedFieldJsonNetDefault_Ok()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.GetDirectharvestUnenveloped(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync("{\"SomeString\":\"Bar\",\"SomeNumber\":123,\"SomeDateTime\":\"2035_06_12\"}");
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.GetDirectharvestUnenveloped(
+                    A<string>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._,
+                    A<string>._))
+                .Returns("{\"SomeString\":\"Bar\",\"SomeNumber\":123,\"SomeDateTime\":\"2035_06_12\"}");
 
-            var danClient = new DanClient(danApi.Object)
+            var danClient = new DanClient(danApi)
             {
                 Configuration = new DanConfiguration
                 {
@@ -170,17 +167,16 @@ namespace Tests.Services
         public void DeserializeTypedToSuppliedField_FailedMissing()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.GetDirectharvest(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync(new DataSet
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.GetDirectharvest(
+                    A<string>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._))
+                .Returns(new DataSet
                 {
                     Values = new List<DataSetValue>
                     {
@@ -200,7 +196,7 @@ namespace Tests.Services
                     }
                 });
 
-            var danClient = new DanClient(danApi.Object);
+            var danClient = new DanClient(danApi);
 
             // Act / verify
             Assert.ThrowsAsync<DanException>(async () =>
@@ -212,20 +208,19 @@ namespace Tests.Services
         public async Task DeserializeTypedWithoutDeserializeField_Ok()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.PostDirectharvestUnenveloped(
-                    It.IsAny<DirectHarvestPostBody>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync("{\"SomeString\":\"Bar\",\"SomeNumber\":123,\"SomeDateTime\":\"2021-12-12T04:56:12\"}");
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.PostDirectharvestUnenveloped(
+                    A<DirectHarvestPostBody>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._,
+                    A<string>._))
+                .Returns("{\"SomeString\":\"Bar\",\"SomeNumber\":123,\"SomeDateTime\":\"2021-12-12T04:56:12\"}");
 
-            var danClient = new DanClient(danApi.Object);
+            var danClient = new DanClient(danApi);
 
             // Act
             MyModel result = await danClient.GetDataSet<MyModel>("a", "12345678910");
@@ -243,17 +238,16 @@ namespace Tests.Services
         public void DeserializeTypedSuppliedFieldNotJsonType_Fail()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.GetDirectharvest(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync(new DataSet
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.GetDirectharvest(
+                    A<string>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._))
+                .Returns(new DataSet
                 {
                     Values = new List<DataSetValue>
                     {
@@ -266,7 +260,7 @@ namespace Tests.Services
                     }
                 });
 
-            var danClient = new DanClient(danApi.Object);
+            var danClient = new DanClient(danApi);
 
             // Act / verify
             Assert.ThrowsAsync<DanException>(async () =>
@@ -277,17 +271,16 @@ namespace Tests.Services
         public void DeserializeTypedSuppliedFieldInvalidJson_Fail()
         {
             // Setup
-            var danApi = new Mock<IDanApi>();
-            danApi
-                .Setup(x => x.GetDirectharvest(
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Dictionary<string, string>>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<string>()))
-                .ReturnsAsync(new DataSet
+            var danApi = A.Fake<IDanApi>();
+            A.CallTo(() => danApi.GetDirectharvest(
+                    A<string>._,
+                    A<string>._,
+                    A<string>._,
+                    A<Dictionary<string, string>>._,
+                    A<bool>._,
+                    A<bool>._,
+                    A<string>._))
+                .Returns(new DataSet
                 {
                     Values = new List<DataSetValue>
                     {
@@ -300,7 +293,7 @@ namespace Tests.Services
                     }
                 });
 
-            var danClient = new DanClient(danApi.Object);
+            var danClient = new DanClient(danApi);
 
             // Act / verify
             Assert.ThrowsAsync<DanException>(async () =>
