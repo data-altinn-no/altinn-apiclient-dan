@@ -76,7 +76,6 @@ namespace Tests.Handlers
                 .Returns(Task.FromResult(new HttpResponseMessage(returnsStatusCode)));
 
             return innerHandlerFake;
-
         }
     }
 }
