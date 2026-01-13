@@ -1,11 +1,9 @@
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using Altinn.ApiClients.Dan.Handlers;
 using Altinn.ApiClients.Dan.Interfaces;
-using Moq;
-using Moq.Protected;
+using FakeItEasy;
 using NUnit.Framework;
 
 namespace Tests.Handlers
@@ -20,8 +18,11 @@ namespace Tests.Handlers
         public void Setup()
         {
             _request = new HttpRequestMessage();
-            _mockAccessTokenRetriever = Mock.Of<IAccessTokenRetriever>();
-            Mock.Get(_mockAccessTokenRetriever).Setup(r => r.GetAccessToken(It.IsAny<bool>())).Returns(Task.FromResult("nunit-token"));
+
+            _mockAccessTokenRetriever = A.Fake<IAccessTokenRetriever>();
+
+            A.CallTo(() => _mockAccessTokenRetriever.GetAccessToken(A<bool>.Ignored))
+                .Returns(Task.FromResult("nunit-token"));
         }
 
         [Test]
@@ -38,7 +39,8 @@ namespace Tests.Handlers
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(_request.Headers.Authorization?.Parameter, Does.Contain("nunit-token"));
             Assert.That(_request.Headers.Authorization?.Scheme, Does.Contain("Bearer"));
-            Mock.Get(_mockAccessTokenRetriever).Verify(x => x.GetAccessToken(false), Times.Once);
+            A.CallTo(() => _mockAccessTokenRetriever.GetAccessToken(false))
+                .MustHaveHappenedOnceExactly();
         }
 
         [Test]
@@ -55,18 +57,25 @@ namespace Tests.Handlers
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
             Assert.That(_request.Headers.Authorization?.Parameter, Does.Contain("nunit-token"));
             Assert.That(_request.Headers.Authorization?.Scheme, Does.Contain("Bearer"));
-            Mock.Get(_mockAccessTokenRetriever).Verify(x => x.GetAccessToken(true), Times.Once);
-            Mock.Get(_mockAccessTokenRetriever).Verify(x => x.GetAccessToken(false), Times.Once);
+            A.CallTo(() => _mockAccessTokenRetriever.GetAccessToken(true))
+                .MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => _mockAccessTokenRetriever.GetAccessToken(false))
+                .MustHaveHappenedOnceExactly();
         }
 
         private static DelegatingHandler GetInnerHandlerMock(HttpRequestMessage request, HttpStatusCode returnsStatusCode)
         {
-            var innerHandlerMock = Mock.Of<DelegatingHandler>(MockBehavior.Strict);
-            Mock.Get(innerHandlerMock)
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", request, ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage(returnsStatusCode));
-            return innerHandlerMock;
+            var innerHandlerFake = A.Fake<DelegatingHandler>();
+
+            A.CallTo(innerHandlerFake)
+                .WithReturnType<Task<HttpResponseMessage>>()
+                .Where(call =>
+                    call.Method.Name == "SendAsync" &&
+                    call.Arguments[0].Equals(request))
+                .Returns(Task.FromResult(new HttpResponseMessage(returnsStatusCode)));
+
+            return innerHandlerFake;
         }
     }
 }
