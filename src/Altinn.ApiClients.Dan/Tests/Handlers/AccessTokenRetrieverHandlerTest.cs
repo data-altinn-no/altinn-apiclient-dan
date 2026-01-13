@@ -40,7 +40,7 @@ namespace Tests.Handlers
             Assert.That(_request.Headers.Authorization?.Parameter, Does.Contain("nunit-token"));
             Assert.That(_request.Headers.Authorization?.Scheme, Does.Contain("Bearer"));
             A.CallTo(() => _mockAccessTokenRetriever.GetAccessToken(false))
-                .MustHaveHappenedOnceExactly();        
+                .MustHaveHappenedOnceExactly();
         }
 
         [Test]
