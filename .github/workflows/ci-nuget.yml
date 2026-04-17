@@ -1,5 +1,9 @@
 name: CI Nuget
 
+permissions:
+  contents: read
+  packages: write
+
 on:
   push:
     branches:
